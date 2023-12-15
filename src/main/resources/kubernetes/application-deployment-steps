@@ -1,0 +1,66 @@
+1) This application is developed to deploy application.yaml through kubernetes.
+2) To achieve that we need to create deployment yaml file and config map file.
+3) deployment- yaml(for creating pod and deploying)
+   configMap- yaml(for spring boot application yaml properties)
+4) Moving image into remote docker registry:(command prompt steps)
+     4.0) when we are going to move docker file into docker hub first we need
+     to build docker image in local
+           4.0.1)we need to find Dockerfile
+           4.0.2)docker build -f Dockerfile -t spring-boot-kubernetes:1.0 .
+     4.1) docker login -> it will ask user name and password
+     4.2) docker image ls -> we can see available docker images.
+     4.3) docker tag spring-boot-docker.jar ramugadde84/spring-boot-docker.jar
+     4.4) docker image ls
+     4.5) docker push ramugadde84/spring-boot-docker.jar
+
+ 5)Kubernetes steps:
+       5.1)To run kubernetes i used docker container.
+       5.2)We need to start Docker container in local(Docker desktop)
+       5.3)After open command prompt and run
+             5.3.1) minikube start
+             5.3.2) minikube dashboard
+             5.3.3) we need to run deployment.yaml file which is in resources folder.
+                  5.3.3.1)kubectl apply -f deployment.yaml
+                  5.3.3.2)kubectl get deployments
+                  5.3.3.3)kubectl get pods
+                  5.3.3.4)kubectl logs <pod-name>
+                  5.3.3.5)kubectl delete deployment my-spring-app
+                  5.3.3.6)kubectl delete service my-spring-app
+                  5.3.3.6)kubectl expose deployment my-spring-app --type=NodePort --port=8080
+                  5.3.3.7)minikube service my-spring-app
+                  5.3.3.8)kubectl exec -it <pod-name> -- /bin/sh
+                  then next we can redirect to mount path.
+                                  volumeMounts:
+                                    - name: config-volume
+                                      mountPath: /config
+
+                  5.3.3.9) kubectl describe  service my-spring-app-service
+                  5.3.3.10) kubectl describe pod <pod-name>
+       Type: LoadBalancer
+           1) Actually in minikube type load balancer will not work
+           2) To make work we need to start -> minikube tunnel
+
+  creation of Secrets:
+   1) kubectl create secret generic my-spring-app-secret --from-literal=database-password=youractualpassword
+   2) The another way of creation of secrets.
+               echo -n 'youractualpassword' | base64 (but in windows it doesn't worked)
+   3) In Config secret yaml file this password i created
+             data:
+               database-password: cmFtc3JpcmFtMTQz
+
+           from tool using base64 url https://www.base64encode.org/
+
+   Grafana:
+    1) To start Grafana we need to use
+              kubectl port-forward svc/grafana 3000:80
+
+  Ingress:
+     1)In Ingress yaml file i used host: myapp.example.com
+     2) Same i changed in host file in windows system
+        C:\Windows\System32\drivers\etc\hosts (dns resolution)
+
+
+
+
+
+

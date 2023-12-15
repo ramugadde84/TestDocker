@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: my-spring-app-config
+data:
+ application.yml: |-
+  spring:
+    datasource:
+      url: jdbc:oracle:thin:@10.0.0.158:1521/xe
+      username: system
+      password: ${DATABASE_PASSWORD}  # Reference the secret
+      driver-class-name: oracle.jdbc.OracleDriver
+    jpa:
+     properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+        ddl-auto: update
+    kafka:
+      topic-name: test-app1
+      consumer:
+        bootstrap-servers: 172.27.67.6:9092
+        group-id: test-app-dev
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        properties:
+          max.poll.records: 10
+          enable.auto.commit: false
+          session.timeout.ms: 10000
+      producer:
+        bootstrap-servers: 172.27.67.6:9092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer

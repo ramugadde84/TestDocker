@@ -1,0 +1,4 @@
+Adding new prjoect to GIT.
+1) Before adding to git we need to run to tell whom you are.
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"

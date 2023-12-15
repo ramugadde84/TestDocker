@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-spring-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-spring-app
+  template:
+    metadata:
+      labels:
+        app: my-spring-app
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: my-spring-app-config
+        - name: secrets-volume
+          secret:
+            secretName: my-spring-app-secret
+        - name: heap-dumps
+          emptyDir: {}
+      containers:
+        - name: spring-boot-kubernetes-test1
+          image: ramugadde84/test-docker-spring-boot:3.0
+          command: ["/bin/sh"]
+          args: ["-c", "/scripts/start.sh"]
+          volumeMounts:
+            - name: heap-dumps
+              mountPath: /heapdumps
+            - name: config-volume
+              mountPath: /config
+            - name: secrets-volume
+              mountPath: /secrets
+          ports:
+            - containerPort: 9091
+          env:
+            - name: SPRING_CONFIG_LOCATION
+              value: /config/application.yml
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-spring-app-secret
+                  key: database-password
+          resources:
+            limits:
+              memory: "1000Mi"
+            requests:
+              memory: "500Mi"
