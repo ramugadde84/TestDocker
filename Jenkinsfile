@@ -55,14 +55,14 @@ pipeline {
                 echo 'Pipeline succeeded!'
 
                 // Clean up: Logout from Docker Hub
-                sh 'docker logout'
+                bat 'docker logout'
             }
 
             failure {
                 echo 'Pipeline failed!'
 
                 // Clean up: Logout from Docker Hub
-                sh 'docker logout'
+                bat 'docker logout'
             }
         }
 }
