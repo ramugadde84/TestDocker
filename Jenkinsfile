@@ -7,39 +7,21 @@ pipeline {
         DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
     }
 
+     tools {
+            // Specify the Maven installation configured in Jenkins
+            maven 'Maven3'
+        }
+
     stages {
-        stage('Clean and Build') {
-            steps {
-               script {
-                                   // Define the Maven tool installation
-                                   def mvnHome = tool 'Maven'
+           stage('Clean and Build') {
+                      steps {
+                          script {
+                              // Clean and install using Maven
+                              bat 'mvn clean install'
+                          }
+                      }
+           }
 
-                                   // Use withMaven step to run Maven within the defined tool installation
-                                   withMaven(maven: mvnHome, mavenSettingsConfig: 'Maven') {
-                                       // Clean and install using Maven
-                                       bat 'mvn clean install'
-                                   }
-                               }
-            }
-        }
-
-        stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    // Build Docker image
-                    sh 'docker build -t test-docker-spring-boot:4.0 .'
-
-                    // Log in to Docker Hub
-                    sh "docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
-
-                    // Tag the image
-                    sh 'docker tag test-docker-spring-boot:4.0 $DOCKER_HUB_USERNAME/test-docker-spring-boot:4.0'
-
-                    // Push the image to Docker Hub
-                    sh 'docker push $DOCKER_HUB_USERNAME/test-docker-spring-boot:4.0'
-                }
-            }
-        }
     }
 
     post {
