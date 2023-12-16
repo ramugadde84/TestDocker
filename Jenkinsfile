@@ -10,10 +10,16 @@ pipeline {
     stages {
         stage('Clean and Build') {
             steps {
-                script {
-                    // Clean and install using Maven
-                   mvn clean install
-                }
+               script {
+                                   // Define the Maven tool installation
+                                   def mvnHome = tool 'Maven'
+
+                                   // Use withMaven step to run Maven within the defined tool installation
+                                   withMaven(maven: mvnHome, mavenSettingsConfig: 'Maven') {
+                                       // Clean and install using Maven
+                                       bat 'mvn clean install'
+                                   }
+                               }
             }
         }
 
