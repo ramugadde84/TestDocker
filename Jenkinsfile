@@ -8,6 +8,7 @@ pipeline {
     }
 
      tools {
+            jdk 'JDk21'
             // Specify the Maven installation configured in Jenkins
             maven 'Maven'
         }
