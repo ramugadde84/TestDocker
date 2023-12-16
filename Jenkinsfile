@@ -23,6 +23,24 @@ pipeline {
                       }
            }
 
+           stage('Build and Push Docker Image') {
+               steps {
+                   script {
+                       // Build Docker image
+                       bat 'docker build -t test-docker-spring-boot:4.0 .'
+
+                       // Log in to Docker Hub
+                       bat "docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
+
+                       // Tag the image
+                       bat 'docker tag test-docker-spring-boot:4.0 $DOCKER_HUB_USERNAME/test-docker-spring-boot:4.0'
+
+                       // Push the image to Docker Hub
+                       bat 'docker push $DOCKER_HUB_USERNAME/test-docker-spring-boot:4.0'
+                   }
+               }
+           }
+
     }
 
 
