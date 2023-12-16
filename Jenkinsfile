@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Clean and install using Maven
-                    bat 'mvn clean install'
+                   mvn clean install
                 }
             }
         }
