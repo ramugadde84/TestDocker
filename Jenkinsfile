@@ -33,7 +33,7 @@ pipeline {
                         echo "Docker Hub Password: $DOCKER_HUB_PASSWORD"
                        // Log in to Docker Hub
                        // Log in to Docker Hub using withCredentials
-                       withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                       withCredentials([usernamePassword(credentialsId: 'docker-hub-username', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                            bat "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
                        }
 
