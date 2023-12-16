@@ -25,19 +25,5 @@ pipeline {
 
     }
 
-    post {
-        success {
-            echo 'Pipeline succeeded!'
 
-            // Clean up: Logout from Docker Hub
-            sh 'docker logout'
-        }
-
-        failure {
-            echo 'Pipeline failed!'
-
-            // Clean up: Logout from Docker Hub
-            sh 'docker logout'
-        }
-    }
 }
