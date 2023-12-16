@@ -53,7 +53,6 @@ pipeline {
     post {
             success {
                 echo 'Pipeline succeeded!'
-
                 // Clean up: Logout from Docker Hub
                 bat 'docker logout'
             }
