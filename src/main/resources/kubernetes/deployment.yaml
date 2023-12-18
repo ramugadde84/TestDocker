@@ -27,8 +27,6 @@ spec:
       containers:
         - name: spring-boot-kubernetes-test1
           image: ramugadde84/test-docker-spring-boot:4.0
-          command: ["/bin/sh"]
-          args: ["-c", "/scripts/start.sh"]
           volumeMounts:
             - name: heap-dumps
               mountPath: /heapdumps
