@@ -28,10 +28,6 @@ pipeline {
                 script {
                     // Build Docker image
                     bat 'docker build -t test-docker-spring-boot:4.0 .'
-
-                    echo "Docker Hub Username: $DOCKER_HUB_USERNAME"
-                    echo "Docker Hub Password: $DOCKER_HUB_PASSWORD"
-
                     // Log in to Docker Hub using withCredentials
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-username', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                         script {
