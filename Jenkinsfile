@@ -37,6 +37,9 @@ pipeline {
                             // Tag the image with lowercase username
                             bat "docker tag test-docker-spring-boot:4.0 ${lowercaseUsername}/test-docker-spring-boot:4.0"
 
+                            // Log in to Docker Hub
+                            bat "docker login -u ${lowercaseUsername} -p ${DOCKER_HUB_PASSWORD}"
+
                             // Push the image to Docker Hub
                             bat "docker push ${lowercaseUsername}/test-docker-spring-boot:4.0"
                         }
