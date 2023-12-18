@@ -17,7 +17,6 @@ public class SampleController {
     public String getName(@RequestParam("name") String name) {
         try {
             logger.info("Sample Controller getName method exectuted:{}", name);
-            getName("test");
             return "hai" + " " + name;
         }catch(NullPointerException nullPointerException){
             logger.error("Exception occurred {}",nullPointerException);

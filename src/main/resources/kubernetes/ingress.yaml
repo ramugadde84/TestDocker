@@ -14,3 +14,7 @@ spec:
                 name: my-spring-app-service
                 port:
                   number: 8080  # This should match the port in your Service manifest
+  tls:
+      - hosts:
+          - myapp.example.com
+        secretName: my-tls-secret
